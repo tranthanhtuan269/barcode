@@ -152,12 +152,12 @@
                             <h4><span>Ảnh đại diện</span></h4>
                         </div>
                         <div class="widget-body clearfix text-center">
-                            <output id="Filelist">
+                            <output id="Filelist" data-file="{{ $data->image }}">
                                 <ul class="thumb-Images" id="imgList" style="list-style:none">
                                     @if(!empty($data->image))
                                     <li>
                                         <div class="img-wrap">
-                                            <img src="{{ asset('uploads/barcode/'.$data->image) }}"class="thumb" id="thumbnail">
+                                            <img width="200" src="{{ asset('uploads/barcode/'.$data->image) }}"class="thumb" id="thumbnail">
                                         </div>
                                     </li>
                                     @else 
@@ -308,7 +308,7 @@
                 name           : $('input[name=name]').val().trim(),
                 barcode           : $('input[name=barcode]').val().trim(),
                 model           : $('input[name=model]').val().trim(),
-                image           : $('#thumbnail').attr('src'),
+                image           : $('#Filelist').attr('data-file'),
                 manufacturer           : $('input[name=manufacturer]').val().trim(),
                 avg_price           : $('input[name=avg_price]').val().trim(),
                 currency_unit           : $('input[name=currency_unit]').val().trim(),
@@ -447,15 +447,18 @@
 
                     $.each(result.data , function(index, val) { 
                         var link = '{{ asset("uploads/barcode") }}' + '/' + val.new_name;
-                        html += '<li><div class="img-wrap"><span class="close" old_name="'+ val.old_name +'" new_name="'+ val.new_name +'">×</span><img class="thumb" id="thumbnail" src="' + link + '"' + '></div></li>';
+                        html += '<li><div class="img-wrap"><span class="close" old_name="'+ val.old_name +'" new_name="'+ val.new_name +'">×</span><img width="200" style="margin-top:5px" class="thumb" id="thumbnail" src="' + link + '"' + '></div></li>';
                         list_image.push(val.new_name);
                     });
 
                     $('#Filelist ul').html(html);
+                    console.log(list_image.toString())
+                    $('#Filelist').attr('data-file', list_image.toString())
                 }
             })
 
-            $('#avatar').val('222')
+
+
 
         }); 
 
@@ -472,7 +475,7 @@
             });
 
             $(this).closest("li").remove();
-            $('#avatar').val('222')
+            $('#Filelist').attr('data-file', '')
         });
 
 

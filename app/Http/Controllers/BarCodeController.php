@@ -264,7 +264,7 @@ class BarCodeController extends Controller
 
             foreach ($_FILES['avatar']['name'] as $key => $filename) {
                 $file_name = explode(".", $filename);
-                $new_name = Illuminate\Support\Str::of($file_name[0])->slug('-') . 'z1_9a' . round(microtime(true) * 1000) . '.' . $file_name[1];
+                $new_name = \Illuminate\Support\Str::of($file_name[0])->slug('-') . 'z1_9a' . round(microtime(true) * 1000) . '.' . $file_name[1];
                 $sourcePath = $_FILES["avatar"]["tmp_name"][$key];
                 $targetPath = public_path('uploads/barcode/') . $new_name;
                 $data [] = ['old_name' => $filename, 'new_name' => $new_name];

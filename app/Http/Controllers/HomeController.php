@@ -8,20 +8,17 @@ use App\Http\Requests;
 use App\Models\News;
 use App\Models\Article;
 use App\Models\Contact;
+use App\Models\Barcode;
+use DNS1D;
 
 class HomeController extends Controller
 { 
     public function tuantt(Request $request){
-        $rules = array(
-            'hao' => 'checkJson',
-        );
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
-        } else {
-        }
-        dd(1);
+        echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG('121223131231231231314141412414121', 'C39+',1,33) . '" alt="barcode"/><br />121223131231231231314141412414121<br />';
+        // $barcodes = Barcode::take(10)->get();
+        // foreach($barcodes as $bc){
+        //     echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($bc->barcode, 'C39+',1,33) . '" alt="barcode"/><br />' . $bc->barcode . '<br />';
+        // }
     }
     public function getIndex(Request $request){
     	$route_arr = $request->route_arr;

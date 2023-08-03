@@ -144,11 +144,7 @@ class BarCodeAdminController extends Controller
         $item->updated_by       = $user_id;
         $item->created_at       = $date_current;
 
-        if ($image != '') {
-            $image = explode("/filemanager/data-images/", $image);
-            $item->image = $image[1];
-        }
-
+        $item->image = $image;
         $item->save();
         $item->article_lang_id = $item->id;
         $item->save();
@@ -206,10 +202,7 @@ class BarCodeAdminController extends Controller
         $date_current = date('Y-m-d H:i:s');
 
         if ($item) {
-            if ($request->image != '') {
-                $image = explode("/uploads/barcode/", $request->image);
-                $item->image = $image[1];
-            }
+            $item->image = $request->image;
             $list_ask = json_decode($request->list_ask, TRUE);
             $item->list_ask          = $list_ask ? $request->list_ask : null;
             $item->name            = $request->name;
