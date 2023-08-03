@@ -46,7 +46,7 @@ class PublicController extends Controller
 		if($data && $data->show_status == 1){
 			$data->view_count ++;
 			$data->save();
-			if($data->related_articles != "null") {
+			if($data->related_articles) {
 				$related_articles = Article::whereIn('id', json_decode($data->related_articles, TRUE))->orderBy('count_view', 'desc')->get();
 			}else {
 				$related_articles = Article::orderBy('count_view', 'desc')->take(10)->get();
