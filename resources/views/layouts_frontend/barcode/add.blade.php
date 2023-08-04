@@ -375,108 +375,103 @@
           });
         });
 
+        list_image = [];
+        list_title_file_upload = [];
+        /* WHEN YOU UPLOAD ONE OR MULTIPLE FILES */
+        $(document).on('change','#avatar',function(){
+            form_data = new FormData(); 
+            len_files = $("#avatar").prop("files").length;
+            param = 1;
+
+            for (var i = 0; i < len_files; i++) {
+                flag = true;
+                var file_data = $("#avatar").prop("files")[i];
+
+                if(jQuery.inArray(file_data.name, list_title_file_upload) !== -1) {
+                    flag = false;
+                    swal({
+                        html: '<div class="alert-danger">File already exists</div>',
+                        })
+                }
+                // alert(list_image.length + param)
+                if (list_image.length + param > 10) {
+                    flag = false;
+                    swal({
+                        html: '<div class="alert-danger">You have added more than 10 files. According to upload conditions you can upload 10 files maximum</div>',
+                        })
+                }
+                // alert(file_data.size)
+                if (file_data.size == 0) {
+                    flag = false;
+                    swal({
+                        html: "<div class='alert-danger'>Please select a valid image!</div>",
+                        })
+                }
+
+                if (file_data.size > 2097152) {
+                    flag = false;
+                    swal({
+                        html: "<div class='alert-danger'>The file (" + file_data.name + ") does not match the upload conditions, The maximum file size for uploads should not exceed 2MB</div>",
+                        })
+                }
+
+                if (flag == true) {
+                    param++;
+                    list_title_file_upload.push(file_data.name); 
+                    form_data.append("avatar[]", file_data);
+                }
+
+            }
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: "{{ url('barcode/uploadImageAjax') }}",
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data, // Setting the data attribute of ajax with form_data
+                type: 'post',
+                success: function(result) {
+                    var html = '';
+
+                    $.each(result.data , function(index, val) { 
+                        var link = '{{ asset("uploads/barcode") }}' + '/' + val.new_name;
+                        html += '<li><div class="img-wrap"><span class="close" old_name="'+ val.old_name +'" new_name="'+ val.new_name +'">×</span><img class="thumb" src="' + link + '"' + '></div></li>';
+                        list_image.push(val.new_name);
+                    });
+
+                    $('#Filelist ul').append(html);
+                }
+            })
+
+            $('#avatar').val('')
+
+        }); 
+
+        $(document).on('click','.close',function(){
+            var filenameOld = $(this).attr('old_name');
+            var filenameNew = $(this).attr('new_name');
+
+            list_image = jQuery.grep(list_image, function(value) {
+                return value != filenameNew;
+            });
+            
+            list_title_file_upload = jQuery.grep(list_title_file_upload, function(value) {
+                return value != filenameOld;
+            });
+
+            $(this).closest("li").remove();
+            $('#avatar').val('')
+        });
+
 
     });
 </script>
-
-<script type="text/javascript">
-    list_image = [];
-    list_title_file_upload = [];
-    /* WHEN YOU UPLOAD ONE OR MULTIPLE FILES */
-    $(document).on('change','#avatar',function(){
-        form_data = new FormData(); 
-        len_files = $("#avatar").prop("files").length;
-        param = 1;
-
-        for (var i = 0; i < len_files; i++) {
-            flag = true;
-            var file_data = $("#avatar").prop("files")[i];
-
-            if(jQuery.inArray(file_data.name, list_title_file_upload) !== -1) {
-                flag = false;
-                swal({
-                    html: '<div class="alert-danger">File already exists</div>',
-                    })
-            }
-            // alert(list_image.length + param)
-            if (list_image.length + param > 10) {
-                flag = false;
-                swal({
-                    html: '<div class="alert-danger">You have added more than 10 files. According to upload conditions you can upload 10 files maximum</div>',
-                    })
-            }
-            // alert(file_data.size)
-            if (file_data.size == 0) {
-                flag = false;
-                swal({
-                    html: "<div class='alert-danger'>Please select a valid image!</div>",
-                    })
-            }
-
-            if (file_data.size > 2097152) {
-                flag = false;
-                swal({
-                    html: "<div class='alert-danger'>The file (" + file_data.name + ") does not match the upload conditions, The maximum file size for uploads should not exceed 2MB</div>",
-                    })
-            }
-
-            if (flag == true) {
-                param++;
-                list_title_file_upload.push(file_data.name); 
-                form_data.append("avatar[]", file_data);
-            }
-
-        }
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $.ajax({
-            url: "{{ url('barcode/uploadImageAjax') }}",
-            dataType: 'json',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: form_data, // Setting the data attribute of ajax with form_data
-            type: 'post',
-            success: function(result) {
-                var html = '';
-
-                $.each(result.data , function(index, val) { 
-                    var link = '{{ asset("uploads/barcode") }}' + '/' + val.new_name;
-                    html += '<li><div class="img-wrap"><span class="close" old_name="'+ val.old_name +'" new_name="'+ val.new_name +'">×</span><img class="thumb" src="' + link + '"' + '></div></li>';
-                    list_image.push(val.new_name);
-                });
-
-                $('#Filelist ul').append(html);
-            }
-        })
-
-        $('#avatar').val('')
-
-    }); 
-
-    $(document).on('click','.close',function(){
-        var filenameOld = $(this).attr('old_name');
-        var filenameNew = $(this).attr('new_name');
-
-        list_image = jQuery.grep(list_image, function(value) {
-            return value != filenameNew;
-        });
-        
-        list_title_file_upload = jQuery.grep(list_title_file_upload, function(value) {
-            return value != filenameOld;
-        });
-
-        $(this).closest("li").remove();
-        $('#avatar').val('')
-    });
-
-
-</script>
-
 
 @endsection
