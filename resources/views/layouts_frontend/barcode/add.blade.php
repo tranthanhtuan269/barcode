@@ -245,10 +245,9 @@
             e.preventDefault();
             var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
             if ($.inArray($($file).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
-                // swal({
-                //     html: '<div class="alert-danger">Only formats are allowed : '+fileExtension.join(', ')+'</div>',
-                //   })
-                alert('Only formats are allowed : '+fileExtension.join(', '));
+                swal({
+                    html: '<div class="alert-danger">Only formats are allowed : '+fileExtension.join(', ')+'</div>',
+                  })
                 return;
             }
             loadImage($file);
@@ -264,10 +263,9 @@
                 $('input[name=excel]').removeClass('hide');
                 var fileExtension = ['xlsx', 'xls', 'csv'];
                 if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
-                    // swal({
-                    //     html: '<div class="alert-danger">The File is not formatted correctly</div>',
-                    // });
-                    alert('The File is not formatted correctly');
+                    swal({
+                        html: '<div class="alert-danger">The File is not formatted correctly</div>',
+                    });
 
                     $('.name_file_tmp').html('');
                     $(this).val('').clone(true);
@@ -360,10 +358,9 @@
                     $("#views").empty();
                 }else{
                     $('#product-image').addClass('hide');
-                    // swal({
-                    //     html: '<div class="alert-danger">An error occurred during save process, please try again</div>',
-                    //   })
-                    alert('An error occurred during save process, please try again')
+                    swal({
+                        html: '<div class="alert-danger">An error occurred during save process, please try again</div>',
+                      })
                     return;
                 }
 
@@ -392,34 +389,30 @@
 
                 if(jQuery.inArray(file_data.name, list_title_file_upload) !== -1) {
                     flag = false;
-                    // swal({
-                    //     html: '<div class="alert-danger">File already exists</div>',
-                    //     })
-                    alert('File already exists')
+                    swal({
+                        html: '<div class="alert-danger">File already exists</div>',
+                        })
                 }
                 // alert(list_image.length + param)
                 if (list_image.length + param > 10) {
                     flag = false;
-                    // swal({
-                    //     html: '<div class="alert-danger">You have added more than 10 files. According to upload conditions you can upload 10 files maximum</div>',
-                    //     })
-                    alert('You have added more than 10 files. According to upload conditions you can upload 10 files maximum')
+                    swal({
+                        html: '<div class="alert-danger">You have added more than 10 files. According to upload conditions you can upload 10 files maximum</div>',
+                        })
                 }
                 // alert(file_data.size)
                 if (file_data.size == 0) {
                     flag = false;
-                    // swal({
-                    //     html: "<div class='alert-danger'>Please select a valid image!</div>",
-                    //     })
-                    alert('Please select a valid image!')
+                    swal({
+                        html: "<div class='alert-danger'>Please select a valid image!</div>",
+                        })
                 }
 
                 if (file_data.size > 2097152) {
                     flag = false;
-                    // swal({
-                    //     html: "<div class='alert-danger'>The file (" + file_data.name + ") does not match the upload conditions, The maximum file size for uploads should not exceed 2MB</div>",
-                    //     })
-                    alert("The file (" + file_data.name + ") does not match the upload conditions, The maximum file size for uploads should not exceed 2MB")
+                    swal({
+                        html: "<div class='alert-danger'>The file (" + file_data.name + ") does not match the upload conditions, The maximum file size for uploads should not exceed 2MB</div>",
+                        })
                 }
 
                 if (flag == true) {
