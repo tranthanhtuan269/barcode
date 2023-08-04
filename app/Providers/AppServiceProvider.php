@@ -24,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if(config('app.env') === 'production') {
+            \URL::forceScheme('https');
+        }
         Validator::extend('recaptcha', function($attribute, $value, $parameters, $validator) {
             $client = new Client();
             $response = $client->post(
