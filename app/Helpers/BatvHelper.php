@@ -14,7 +14,7 @@ $USERNAME='tohapi_db';
 $PASSWORD='TOHapidb@123';
 $DBNAME='tohsystem';
     $conn = mysqli_connect($HOST, $USERNAME, $PASSWORD, $DBNAME);
-    $sql = "INSERT INTO barcode_dict VALUES('".$barcode->barcode."','".$barcode->name."','".$barcode->model."','".$barcode->manufacturer."','".$barcode->image."','".$barcode->avg_price."','".$barcode->spec."','".$barcode->feature."','".$barcode->description."',".time(true).")";
+    $sql = "INSERT INTO barcode_dict VALUES('".$barcode->barcode."','".$barcode->name."','".$barcode->model."','".$barcode->manufacturer."','".$barcode->image."','".$barcode->avg_price."','".$barcode->spec."','".$barcode->feature."','".$barcode->description."',".time().")";
     $result = $conn->query($sql);
     $conn->close();	
 }
@@ -27,7 +27,7 @@ $USERNAME='tohapi_db';
 $PASSWORD='TOHapidb@123';
 $DBNAME='tohsystem';
     $conn = mysqli_connect($HOST, $USERNAME, $PASSWORD, $DBNAME);
-    $sql = "INSERT INTO barcode_dict VALUES('".$barcode['barcode']."','".$barcode['name']."','".$barcode['model']."','".$barcode['manufacturer']."','".$barcode['image']."','".$barcode['avg_price']."','".$barcode['spec']."','".$barcode['feature']."','".$barcode['description']."',".time(true).")";
+    $sql = "INSERT INTO barcode_dict VALUES('".$barcode['barcode']."','".$barcode['name']."','".$barcode['model']."','".$barcode['manufacturer']."','".$barcode['image']."','".$barcode['avg_price']."','".$barcode['spec']."','".$barcode['feature']."','".$barcode['description']."',".time().")";
     $result = $conn->query($sql);
     $conn->close();
 }
