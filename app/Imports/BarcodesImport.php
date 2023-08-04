@@ -2,7 +2,7 @@
 
 namespace App\Imports;
 
-use App\Models\Barcode;
+use App\Models\BarCode;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
 
@@ -15,11 +15,11 @@ class BarcodesImport implements ToModel
      */
     public function model(array $row)
     {
-        $find = Barcode::where('barcode', $row[1])->first();
+        $find = BarCode::where('barcode', $row[1])->first();
         if($find){
 
         }else{
-            return new Barcode([
+            return new BarCode([
             'ordinal_number'     => $row[0],
             'barcode'            => $row[1],
             'name'               => $row[2],
