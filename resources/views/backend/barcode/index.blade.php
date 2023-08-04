@@ -59,7 +59,23 @@
                                 <input type="checkbox" name="selectCol" class="check-article" value="{{ $data->id }}" data-column="{{ $data->id }}">
                             </td>
                             <td>
-                                <img src="/uploads/barcode/{{ $data->image }}" width="60">
+                                @php
+                                if(str_contains($data->image, ',')){
+                                    $pieces = explode(",", $data->image);
+                                    if (str_contains($pieces[0], 'http')){
+                                        echo "<img src='$pieces[0]' width='60'>";
+                                    }else{
+                                        echo "<img src='/uploads/barcode/$pieces[0]' width='60'>";
+                                    }
+                                }else{
+                                    if (str_contains($data->image, 'http')){
+                                        echo "<img src='$data->image' width='60'>";
+                                    }else{
+                                        echo "<img src='/uploads/barcode/$data->image' width='60'>";
+                                    }
+                                }
+                                @endphp
+                                
                             </td>
                             <td>
                                 <a href="/admincp/barcodes/{{ $data->id }}/edit?language=en" title="Sửa">{{ $data->name }}</a>
