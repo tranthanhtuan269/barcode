@@ -444,6 +444,7 @@ $("body").on("click", "#add-edit-barcode", function (e) {
   var model = $('input[name="model"]').val();
   var manufacturer = $('input[name="manufacturer"]').val();
   var currency_unit = $('input[name="currency_unit"]').val();
+  var avg_price = $('input[name="avg_price_tmp"]').val();
   var spec = CKEDITOR.instances.spec.getData();
   var feature = CKEDITOR.instances.feature.getData();
   var description = CKEDITOR.instances.description_field.getData();
@@ -461,6 +462,7 @@ $("body").on("click", "#add-edit-barcode", function (e) {
       model: model,
       manufacturer: manufacturer,
       currency_unit: currency_unit,
+      avg_price: avg_price,
       spec: spec,
       feature: feature,
       description: description,
@@ -473,6 +475,22 @@ $("body").on("click", "#add-edit-barcode", function (e) {
       $("#pre_ajax_loading_barcode").hide();
       if ($.isEmptyObject(response.responseJSON.error)) {
         var urlRedirect = baseURL + "/barcode/list";
+        // add to localstorage
+        
+        var barcodes = [];
+        if(localStorage.getItem("barcodes") != null){
+          barcodes = JSON.parse(localStorage.getItem("barcodes"));
+
+          var index = checkExist(barcode, barcodes);
+  
+          if(index != -1){
+            barcodes.splice(index, 1)
+          }
+        }
+
+        barcodes.push(response.responseJSON.barcode);
+        localStorage.setItem("barcodes", JSON.stringify(barcodes));
+
         swal({
           html: '<div class="alert-success">' + response.responseJSON.success + '</div>',
         })
@@ -501,6 +519,16 @@ $("body").on("click", "#add-edit-barcode", function (e) {
   };
   $(this).parents("form").ajaxForm(options);
 })
+
+function checkExist($id, $arr){
+  for(var i=0; i< $arr.length; i++){
+    if($arr[i].id == $id){
+      return i;
+    }
+  }
+
+  return -1;
+}
 
 function formatNumber(nStr, decSeperate, groupSeperate) {
   nStr += '';

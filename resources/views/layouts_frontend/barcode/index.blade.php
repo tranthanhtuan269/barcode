@@ -42,9 +42,7 @@
 
 								// add new barcode if added
 								var list_new = <?php if(null !== session('list_barcode')){ echo json_encode(session('list_barcode')); } else { echo '[]'; } ?>;
-								var item_new = <?php if(null !== session('barcode')){ echo json_encode(session('barcode')); } else { echo 'null'; } ?>;
 
-								console.log(item_new);
 						    	var barcodes = [];
 						        if(localStorage.getItem("barcodes") != null){
 						          barcodes = JSON.parse(localStorage.getItem("barcodes"));
@@ -59,15 +57,6 @@
 									if(index != -1){
 										barcodes.splice(index, 1)
 									}
-								}
-
-								if(item_new != null){
-									var index = checkExist(item_new.barcode, barcodes);
-
-									if(index != -1){
-										barcodes.splice(index, 1)
-									}
-									barcodes.push(item_new);
 								}
 								barcodes = barcodes.concat(list_new);
 								console.log(barcodes);
