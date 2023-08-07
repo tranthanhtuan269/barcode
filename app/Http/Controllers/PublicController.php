@@ -38,24 +38,6 @@ class PublicController extends Controller
             return \DB::table('setting_email')->get();
         });
 	}
-	
-    public function getSearchBarcode(Request $request, $slug){
-    	$barcode = explode("-", $slug);
-    	$barcode = $barcode[count($barcode) - 1];
-		$data = BarCode::findBarCodebyBarCode($barcode);
-		if($data && $data->show_status == 1){
-			$data->view_count ++;
-			$data->save();
-			if($data->related_articles) {
-				$related_articles = Article::whereIn('id', json_decode($data->related_articles, TRUE))->orderBy('count_view', 'desc')->get();
-			}else {
-				$related_articles = Article::orderBy('count_view', 'desc')->take(10)->get();
-			}
-			return view('layouts_frontend.barcode.search',['data'=>$data, 'barcode' => $barcode, 'related_articles' => $related_articles]);
-		}else {
-			return view('layouts_frontend.barcode.search',['barcode' => $barcode]);
-		}
-    }
 
     public function getIndex(Request $request){
     	$timeCreated = date('Y-m-d');
@@ -516,6 +498,36 @@ class PublicController extends Controller
         }
         return \Response::json(array('code' => '404', 'message' => 'unsuccess', 'image_url' => ""));
     }
+	
+    public function getSearchBarcode(Request $request, $slug){
+    	$barcode = explode("-", $slug);
+    	$barcode = $barcode[count($barcode) - 1];
+		$data = BarCode::findBarCodebyBarCode($barcode);
+
+		$json = file_get_contents('http://barcode.tohapp.com/barcode_api.php?barcode='.$barcode);
+		$data2 = json_decode($json);
+		$slug2 = $slug;
+		if( !empty($data->barcode) ){
+			$slug2 = \Illuminate\Support\Str::of($data2->name)->slug("-") . '-' . $barcode;
+		}
+
+		if($slug2 == $slug){
+			if($data && $data->show_status == 1){
+				$data->view_count ++;
+				$data->save();
+				if($data->related_articles) {
+					$related_articles = Article::whereIn('id', json_decode($data->related_articles, TRUE))->orderBy('count_view', 'desc')->get();
+				}else {
+					$related_articles = Article::orderBy('count_view', 'desc')->take(10)->get();
+				}
+				return view('layouts_frontend.barcode.search',['data'=>$data, 'barcode' => $barcode, 'related_articles' => $related_articles]);
+			}else {
+				return view('layouts_frontend.barcode.search',['barcode' => $barcode]);
+			}
+		}else{
+			return redirect('/barcode/' . $slug2, 301); 
+		}
+    }
 
     public function getSlugAjax(Request $request){
         $timeCreated = date('Y-m-d');
@@ -525,7 +537,7 @@ class PublicController extends Controller
         if( !isset($data) ){
         	// data == null
             $json = file_get_contents('http://barcode.tohapp.com/barcode_api.php?barcode='.$trimBarcode);
-            $data = json_decode($json);
+            $data = json_decode($json);  
             if( !empty($data->barcode) ){
             	// data != null
             	$avg_price = $currency_unit = '';
