@@ -200,8 +200,8 @@ class BarCodeController extends Controller
                                 }
 
                                 if (count($arr) > 0) {
-                                    // BarCode::insertOrIgnore($arr);
-                                    // BatvHelper::insertMultiBarcode($arr);
+                                    BarCode::insertOrIgnore($arr);
+                                    BatvHelper::insertMultiBarcode($arr);
                                     return redirect()->route('listBarCodebyUser')->with(['flash_message_succ' => isset($this->messages['barcode.create_susscess']) ? $this->messages['barcode.create_susscess'] : 'The product has been created.', 'list_barcode' => $arr]);
                                 }
                             } else {
