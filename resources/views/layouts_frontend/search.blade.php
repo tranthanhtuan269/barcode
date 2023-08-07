@@ -1,6 +1,6 @@
 @extends('layouts_frontend.master')
 
-@section('title', 'Search keyword: ' . $search)
+@section('title', 'Search keyword: ' . isset($_GET['search']) ? $_GET['search'] : '')
 
 @section('content')
 
@@ -19,8 +19,8 @@
             <!-- search -->
             <div class="col-xs-12 col-sm-8 col-sm-offset-2">
                 <div class="box-search w-100 mb-4">
-                    @if(isset($search))
-                    <input type="text" id="search-input" class="w-100" value="{{$search}}">
+                    @if(isset($_GET['search']))
+                    <input type="text" id="search-input" class="w-100" value="{{$_GET['search']}}">
                     @else
                     <input type="text" id="search-input" class="w-100">
                     @endif
