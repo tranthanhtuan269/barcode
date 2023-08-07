@@ -31,7 +31,6 @@
 					                <th class="manufacturer-field">Manufacturer</th>
 					                <th class="avg_price-field">Average Price</th>
 					                <th class="created_at-field">Created At</th>
-					                <th class="updated_at-field">Updated At</th>
 					            </tr>
 					        </thead>
 					        <tbody id="barcode-list">
@@ -78,7 +77,6 @@
 								                <td class="manufacturer-field">'+barcodes[i].manufacturer+'</td>\
 								                <td class="avg_price-field">'+barcodes[i].avg_price+'</td>\
 								                <td class="created_at-field">'+barcodes[i].created_at+'</td>\
-								                <td class="updated_at-field">'+barcodes[i].updated_at+'</td>\
 								        	</tr>';
 						        }
 
