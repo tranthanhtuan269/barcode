@@ -302,7 +302,7 @@ class BarCodeController extends Controller
                     $item->updated_at  =  $dateCurrent;
                     $item->user_id = 1;
                     $item->save();
-                    // BatvHelper::insertBarcode($item);
+                    BatvHelper::insertBarcode($item);
                     // User::where('id', $user_id)->update( ['number_barcode'=> (Auth::user()->number_barcode - 1 ) ] );
                     \Session::flash('check_in','add_normal');
 
