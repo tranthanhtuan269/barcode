@@ -3,12 +3,6 @@
 @section('title', 'Barcode Live')
 
 @section('content')
-<?php 
-function ChangeText($a){
-	$a = str_replace("_"," ",$a);
-	return ucfirst($a);
-}
-?>
 <div id="special-field" class="special" data-barcode="10"></div>
 <div class="list-barcode account">
 	<div class="container">
@@ -30,9 +24,7 @@ function ChangeText($a){
 						<table id="barcode-grid"  cellpadding="0" cellspacing="0" class="toggle-vis" border="0" class="display" width="100%">
 					        <thead>
 					            <tr>
-					                <th class="id-field" width="2%">
-					                	<input type="checkbox" id="select-all-btn" data-check="false">
-									</th>
+									<th class="barcode-field">ID</th>
 									<th class="barcode-field">Barcode</th>
 					                <th class="name-field">Name</th>
 					                <th class="model-field">Model</th>
@@ -40,41 +32,45 @@ function ChangeText($a){
 					                <th class="avg_price-field">Average Price</th>
 					                <th class="created_at-field">Created At</th>
 					                <th class="updated_at-field">Updated At</th>
-									<th class="action-field" width="10%">
-										Action
-									</th>
 					            </tr>
 					        </thead>
 					        <tbody id="barcode-list">
 					        </tbody>
 						</table>
 
-						<p>
-							<div class="form-inline">
-							    <div class="form-group">
-								  	<label for="sel1">Action on selected rows:</label>
-<!-- 								  	<select class="form-control" id="sel1">
-								    	<option>Delete</option>
-								  	</select> -->
-								  	<div class="btn btn-default" id="apply-all-btn">Delete</div>
-								</div> 
-							</div>
-						</p>
 						<script type="text/javascript">							
 						    $(document).ready(function() {
+
+								// add new barcode if added
+								var list_new = <?php if(null !== session('list_barcode')){ echo json_encode(session('list_barcode')); } else { echo '[]'; } ?>;
+								console.log(list_new);
 
 						    	var barcodes = [];
 						        if(localStorage.getItem("barcodes") != null){
 						          barcodes = JSON.parse(localStorage.getItem("barcodes"));
 						        }
 
+								for(var i = 0; i < list_new.length; i++){
+									// document.write(list_new[i]);
+									console.log(list_new[i].barcode);
+
+									var index = checkExist(list_new[i].barcode, barcodes);
+
+									if(index != -1){
+										barcodes.splice(index, 1)
+									}
+								}
+
+								barcodes = barcodes.concat(list_new);
+								console.log(barcodes);
+								localStorage.setItem("barcodes", JSON.stringify(barcodes));
 						        var html = '';
 
 						        for(var i = 0; i < barcodes.length; i++){
 						        	if(barcodes[i] == null) continue;
 						        	html += '<tr>\
 								        		<td class="id-field" width="2%">\
-								                	<input type="checkbox" id="barcode-'+barcodes[i].id+'" data-id="'+barcodes[i].id+'" data-check="false">\
+								                	'+(i+1)+'\
 												</td>\
 												<td class="barcode-field">'+barcodes[i].barcode+'</td>\
 								                <td class="name-field">'+barcodes[i].name+'</td>\
@@ -83,17 +79,6 @@ function ChangeText($a){
 								                <td class="avg_price-field">'+barcodes[i].avg_price+'</td>\
 								                <td class="created_at-field">'+barcodes[i].created_at+'</td>\
 								                <td class="updated_at-field">'+barcodes[i].updated_at+'</td>\
-												<td class=" action-field">\
-							                        <a href="{{ url('/') }}/barcode/'+barcodes[i].barcode+'" class="btn btn-xs btn-default">\
-							                            <i class="glyphicon glyphicon-eye-open"></i>\
-							                        </a>\
-							                        <a href="{{ url('/') }}/barcode/'+barcodes[i].id+'/edit" class="btn btn-xs btn-default">\
-							                            <i class="glyphicon glyphicon-edit"></i>\
-							                        </a>\
-							                        <div id="remove-'+barcodes[i].id+'" data-id="'+barcodes[i].id+'" onclick="removeItem('+barcodes[i].id+')" class="btn btn-xs btn-default">\
-							                            <i class="glyphicon glyphicon-remove"></i>\
-							                        </div>\
-							                    </td>\
 								        	</tr>';
 						        }
 

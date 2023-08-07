@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Hash;
 use Yajra\Datatables\Datatables;
 use App\Mylibs\ResizeImage;
 use App\Helpers\BatvHelper;
+use Maatwebsite\Excel\HeadingRowImport;
 
 class BarCodeController extends Controller
 {
@@ -77,174 +78,137 @@ class BarCodeController extends Controller
                     } else {
                         // add check for file is too large. only get first row to check invalid data
                         ini_set('memory_limit', '2048M');
-                        $returnCheck = \Excel::import(new \App\Imports\BarcodesImport, request()->file('file_excel'));
-                        // dd(request()->file('file_excel'));
-                        // $returnCheck = \Excel::load($request->file_excel)->skipRows(1)->takeRows(1)->get();
-                        if (!method_exists($returnCheck, 'getHeading')) {
+                        $headings = (new HeadingRowImport)->toArray(request()->file('file_excel'));
+                        
+                        if (!(in_array('ordinal_number', $headings[0][0], TRUE) &&
+                            in_array('barcode', $headings[0][0], TRUE) &&
+                            in_array('name', $headings[0][0], TRUE) &&
+                            in_array('model', $headings[0][0], TRUE) &&
+                            in_array('manufacturer', $headings[0][0], TRUE) &&
+                            in_array('average_price', $headings[0][0], TRUE) &&
+                            in_array('currency_unit', $headings[0][0], TRUE) &&
+                            in_array('currency_unit', $headings[0][0], TRUE))) {
                             return back()->with(['flash_message_err_and_reload' => 'The File is not formatted correctly']);
-                        } else {
-                            $dataCheck = $returnCheck->getHeading();
-                            if (!(in_array('ordinal_number', $dataCheck, TRUE) &&
-                                in_array('barcode', $dataCheck, TRUE) &&
-                                in_array('name', $dataCheck, TRUE) &&
-                                in_array('model', $dataCheck, TRUE) &&
-                                in_array('manufacturer', $dataCheck, TRUE) &&
-                                in_array('average_price', $dataCheck, TRUE) &&
-                                in_array('currency_unit', $dataCheck, TRUE) &&
-                                in_array('currency_unit', $dataCheck, TRUE))) {
-                                return back()->with(['flash_message_err_and_reload' => 'The File is not formatted correctly']);
-                            }
+                        }
 
-                            // if file is ok, then load all data and process
-                            $results = \Excel::load($request->file_excel);
-                            $data = $results->toArray();
+                        // if file is ok, then load all data and process
+                        // $returnCheck = \Excel::import(new \App\Imports\BarcodesImport, request()->file('file_excel'));
 
-                            if (count($data) > 0) {
-                                // Kiểm tra xem file có đúng định dạng như file Example ko
-                                if (isset($data[0]['ordinal_number']) && isset($data[0]['barcode']) && isset($data[0]['name']) && isset($data[0]['model']) && isset($data[0]['manufacturer']) && isset($data[0]['average_price']) && isset($data[0]['currency_unit'])  && isset($data[0]['image'])) {
-                                    $list_barcode = [];
-                                    foreach ($data as $row) {
-                                        unset($rules);
-                                        unset($validator);
-                                        $barcode = trim($row['barcode']);
-                                        $rules = [
-                                            'barcode' => 'required|numeric|digits_between:12,13|check_barcode:' . $barcode,
-                                            'name' => 'required|max:200',
-                                            'model' => 'required|max:50',
-                                            'manufacturer' => 'required|max:200',
-                                            'avg_price' => 'required|numeric|min:0',
-                                            'currency_unit' => 'validate_currency_unit:' . $row['currency_unit'],
-                                        ];
+                        $data = (new \App\Imports\BarcodesImport)->toArray(request()->file('file_excel'))[0];
 
-                                        $messages = [
-                                            'barcode.check_barcode' => isset($this->messages['barcode.check_barcode']) ? $this->messages['barcode.check_barcode'] : 'The product has already been taken.',
-                                            'avg_price.numeric' => isset($this->messages['barcode.avg_price.numeric']) ? $this->messages['barcode.avg_price.numeric'] : 'The avg price should be a number.',
-                                            'currency_unit.validate_currency_unit' => isset($this->messages['barcode.currency_unit.validate_currency_unit']) ? $this->messages['barcode.currency_unit.validate_currency_unit'] : 'Currency unit invalid.',
-                                        ];
-                                        $tmp = [
+                        if (count($data) > 0) {
+                            // Kiểm tra xem file có đúng định dạng như file Example ko
+                            if (isset($data[0]['ordinal_number']) && isset($data[0]['barcode']) && isset($data[0]['name']) && isset($data[0]['model']) && isset($data[0]['manufacturer']) && isset($data[0]['average_price']) && isset($data[0]['currency_unit'])  && isset($data[0]['image'])) {
+                                $list_barcode = [];
+                                foreach ($data as $row) {
+                                    unset($rules);
+                                    unset($validator);
+                                    $barcode = trim($row['barcode']);
+                                    $rules = [
+                                        'barcode' => 'required|numeric|digits_between:12,13|check_barcode:' . $barcode,
+                                        'name' => 'required|max:200',
+                                        'model' => 'required|max:50',
+                                        'manufacturer' => 'required|max:200',
+                                        'avg_price' => 'required|numeric|min:0',
+                                        'currency_unit' => 'validate_currency_unit:' . $row['currency_unit'],
+                                    ];
+
+                                    $messages = [
+                                        'barcode.check_barcode' => isset($this->messages['barcode.check_barcode']) ? $this->messages['barcode.check_barcode'] : 'The product has already been taken.',
+                                        'avg_price.numeric' => isset($this->messages['barcode.avg_price.numeric']) ? $this->messages['barcode.avg_price.numeric'] : 'The avg price should be a number.',
+                                        'currency_unit.validate_currency_unit' => isset($this->messages['barcode.currency_unit.validate_currency_unit']) ? $this->messages['barcode.currency_unit.validate_currency_unit'] : 'Currency unit invalid.',
+                                    ];
+                                    $tmp = [
+                                        'barcode' => $barcode,
+                                        'name' => $row['name'],
+                                        'model' => $row['model'],
+                                        'manufacturer' => $row['manufacturer'],
+                                        'avg_price' => $row['average_price'],
+                                        'currency_unit' => $row['currency_unit'],
+                                    ];
+                                    $validator = Validator::make($tmp, $rules, $messages);
+                                    if ($validator->fails()) {
+                                        return redirect()->back()->withErrors($validator);
+                                    } else {
+                                        include_once(public_path('libs/PHPCrawler.class.php'));
+                                        include_once(public_path('libs/simple_html_dom.php'));
+                                        libxml_use_internal_errors(true);
+                                        // dd(12);
+                                        $arrContextOptions = array(
+                                            "ssl" => array(
+                                                "verify_peer" => false,
+                                                "verify_peer_name" => false,
+                                            ),
+                                        );
+
+                                        $str_image = '';
+                                        $arr_file = explode(',', $row['image']);
+                                        $arr_file = array_map('trim', $arr_file);
+                                        $arr_file = array_unique($arr_file);
+                                        $k_file = 1;
+
+                                        foreach ($arr_file as $file) {
+                                            $link_img = trim($file);
+
+                                            if (!(empty($link_img)) && strpos($link_img, "http") !== false) {
+                                                $contentImage = @file_get_contents($link_img, false, stream_context_create($arrContextOptions));
+                                                if ($contentImage !== FALSE) {
+                                                    $ext = 'png';
+                                                    $fileName = round(microtime(true) * 1000) . '.' . $ext;
+                                                    $str_image .= $fileName . ',';
+                                                    $fp2 = fopen(public_path('uploads/barcode/') . $fileName, "w");
+                                                    fwrite($fp2, $contentImage);
+                                                    fclose($fp2);
+                                                    $k_file++;
+                                                }
+
+                                                if ($k_file > 10) {
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        // dd(13);
+                                        // else{
+                                        //     $fileName = $row['image'];
+                                        // }
+
+                                        $arr[] = [
                                             'barcode' => $barcode,
                                             'name' => $row['name'],
                                             'model' => $row['model'],
                                             'manufacturer' => $row['manufacturer'],
                                             'avg_price' => $row['average_price'],
                                             'currency_unit' => $row['currency_unit'],
+                                            'spec' => $row['specification'],
+                                            'feature' => $row['feature'],
+                                            'description' => $row['description'],
+                                            'image' => rtrim($str_image, ","),
+                                            'created_at' => $time_created,
+                                            'updated_at' => $time_created,
+                                            'user_id' => $user_id,
                                         ];
-                                        $validator = Validator::make($tmp, $rules, $messages);
-                                        if ($validator->fails()) {
-                                            return redirect()->back()->withErrors($validator);
-                                        } else {
-                                            include_once(public_path('libs/PHPCrawler.class.php'));
-                                            include_once(public_path('libs/simple_html_dom.php'));
-                                            libxml_use_internal_errors(true);
 
-                                            $arrContextOptions = array(
-                                                "ssl" => array(
-                                                    "verify_peer" => false,
-                                                    "verify_peer_name" => false,
-                                                ),
-                                            );
+                                        // Trường hợp barcode duplicate thì báo lỗi
+                                        $duplicate = (in_array($barcode, $list_barcode)) ? true : false;
 
-                                            $str_image = '';
-                                            $arr_file = explode(',', $row['image']);
-                                            $arr_file = array_map('trim', $arr_file);
-                                            $arr_file = array_unique($arr_file);
-                                            $k_file = 1;
-
-                                            foreach ($arr_file as $file) {
-                                                $link_img = trim($file);
-
-                                                if (!(empty($link_img)) && strpos($link_img, "http") !== false) {
-                                                    $contentImage = @file_get_contents($link_img, false, stream_context_create($arrContextOptions));
-                                                    if ($contentImage !== FALSE) {
-                                                        $ext = 'png';
-                                                        $fileName = round(microtime(true) * 1000) . '.' . $ext;
-                                                        $str_image .= $fileName . ',';
-                                                        $fp2 = fopen(public_path('uploads/barcode/') . $fileName, "w");
-                                                        fwrite($fp2, $contentImage);
-                                                        fclose($fp2);
-                                                        $k_file++;
-                                                    }
-
-                                                    if ($k_file > 10) {
-                                                        break;
-                                                    }
-                                                }
-                                            }
-                                            // else{
-                                            //     $fileName = $row['image'];
-                                            // }
-
-                                            $arr[] = [
-                                                'barcode' => $barcode,
-                                                'name' => $row['name'],
-                                                'model' => $row['model'],
-                                                'manufacturer' => $row['manufacturer'],
-                                                'avg_price' => $row['average_price'],
-                                                'currency_unit' => $row['currency_unit'],
-                                                'spec' => $row['specification'],
-                                                'feature' => $row['feature'],
-                                                'description' => $row['description'],
-                                                'image' => rtrim($str_image, ","),
-                                                'created_at' => $time_created,
-                                                'updated_at' => $time_created,
-                                                'user_id' => $user_id,
-                                            ];
-
-                                            // Trường hợp barcode duplicate thì báo lỗi
-                                            $duplicate = (in_array($barcode, $list_barcode)) ? true : false;
-
-                                            if ($duplicate == true) {
-                                                return back()->with(['flash_message_err_and_reload' => isset($this->messages['barcode.duplicate']) ? $this->messages['barcode.duplicate'] : 'The products have been duplicated in file excel.']);
-                                            }
-
-                                            $list_barcode[] = $barcode;
+                                        if ($duplicate == true) {
+                                            return back()->with(['flash_message_err_and_reload' => isset($this->messages['barcode.duplicate']) ? $this->messages['barcode.duplicate'] : 'The products have been duplicated in file excel.']);
                                         }
+
+                                        $list_barcode[] = $barcode;
                                     }
+                                }
 
-                                    if (count($arr) > 0) {
-                                        $checkMulti = User::checkBarCodebyUser(count($arr));
-                                        if ($checkMulti) {
-                                            BarCode::insert($arr);
-                                            BatvHelper::insertMultiBarcode($arr);
-                                            User::update(['number_barcode' => (Auth::user()->number_barcode - count($arr))]);
-
-                                            // $index = array_search('barcode.create', array_column($this->settingEmail, 'function'));
-                                            // $checkSendEmail = $this->settingEmail[$index];
-
-                                            // if ($checkSendEmail->user == 1) {
-                                            //     $template = 'layouts_frontend.email.to_user.create_barcodes_success';
-                                            //     $title = 'The products have been created.';
-                                            //     $email = Auth::user()->email;
-                                            //     $content_mail = array(
-                                            //         'barcode' =>  $barcode
-                                            //     );
-
-                                            //     BatvHelper::sendEmail($template, $title, $email, $content_mail);
-                                            // }
-
-                                            // if ($checkSendEmail->admin == 1) {
-                                            //     $template = 'layouts_frontend.email.to_admin.create_barcodes_success';
-                                            //     $title = 'Some product of ' . Auth::user()->name . ' have been created.';
-                                            //     $email = env('MAIL_USERNAME', 'nhansu@tohsoft.com');
-                                            //     $content_mail = array(
-                                            //         'barcode'   =>  $barcode,
-                                            //         'user'      =>  Auth::user()->name
-                                            //     );
-
-                                            //     BatvHelper::sendEmail($template, $title, $email, $content_mail);
-                                            // }
-
-                                            return redirect()->route('listBarCodebyUser')->with(['flash_message_succ' => isset($this->messages['barcode.create_susscess']) ? $this->messages['barcode.create_susscess'] : 'The product has been created.', 'list_barcode' => $arr]);
-                                        } else {
-                                            return back()->with(['flash_message_err_special' => isset($this->messages['barcode.run_out_of_free']) ? $this->messages['barcode.run_out_of_free'] : 'You have run out of barcodes.']);
-                                        }
-                                    }
-                                } else {
-                                    return back()->with(['flash_message_err_and_reload' => isset($this->messages['barcode.file_excel.mimes']) ? $this->messages['barcode.file_excel.mimes'] : 'The products have been duplicated in file excel.']);
+                                if (count($arr) > 0) {
+                                    // BarCode::insertOrIgnore($arr);
+                                    // BatvHelper::insertMultiBarcode($arr);
+                                    return redirect()->route('listBarCodebyUser')->with(['flash_message_succ' => isset($this->messages['barcode.create_susscess']) ? $this->messages['barcode.create_susscess'] : 'The product has been created.', 'list_barcode' => $arr]);
                                 }
                             } else {
-                                return back()->with(['flash_message_err' => isset($this->messages['barcode.file_excel.empty']) ? $this->messages['barcode.file_excel.empty'] : 'The file cannot be empty.']);
+                                return back()->with(['flash_message_err_and_reload' => isset($this->messages['barcode.file_excel.mimes']) ? $this->messages['barcode.file_excel.mimes'] : 'The products have been duplicated in file excel.']);
                             }
+                        } else {
+                            return back()->with(['flash_message_err' => isset($this->messages['barcode.file_excel.empty']) ? $this->messages['barcode.file_excel.empty'] : 'The file cannot be empty.']);
                         }
                     }
                 } else {
