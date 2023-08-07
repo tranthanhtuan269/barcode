@@ -76,7 +76,7 @@
 								                <td class="model-field">'+barcodes[i].model+'</td>\
 								                <td class="manufacturer-field">'+barcodes[i].manufacturer+'</td>\
 								                <td class="avg_price-field">'+barcodes[i].avg_price+'</td>\
-								                <td class="created_at-field">'+date.getFullYear() + '-' + ("0" + date.getMonth()).slice(-2)  + '-' + ("0" + date.getDay()).slice(-2)  + ' ' + ("0" + date.getHours()).slice(-2)  + ':' + ("0" + date.getMinutes()).slice(-2)  + ':' + ("0" + date.getSeconds()).slice(-2) +'</td>\
+								                <td class="created_at-field">'+date.getFullYear() + '-' + ("0" + (parseInt(date.getMonth()) + 1)).slice(-2)  + '-' + ("0" + date.getDate()).slice(-2)  + ' ' + ("0" + date.getHours()).slice(-2)  + ':' + ("0" + date.getMinutes()).slice(-2)  + ':' + ("0" + date.getSeconds()).slice(-2) +'</td>\
 								        	</tr>';
 						        }
 
