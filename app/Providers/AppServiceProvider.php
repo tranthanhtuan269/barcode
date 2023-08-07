@@ -8,6 +8,7 @@ use Validator;
 use App\Helpers\BatvHelper;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\View as View2;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Paginator::useBootstrap();
         if(config('app.env') === 'production') {
             \URL::forceScheme('https');
         }
