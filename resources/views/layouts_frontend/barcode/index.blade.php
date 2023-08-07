@@ -65,6 +65,8 @@
 
 						        for(var i = 0; i < barcodes.length; i++){
 						        	if(barcodes[i] == null) continue;
+									var date = new Date(barcodes[i].created_at);
+
 						        	html += '<tr>\
 								        		<td class="id-field" width="2%">\
 								                	'+(i+1)+'\
@@ -74,7 +76,7 @@
 								                <td class="model-field">'+barcodes[i].model+'</td>\
 								                <td class="manufacturer-field">'+barcodes[i].manufacturer+'</td>\
 								                <td class="avg_price-field">'+barcodes[i].avg_price+'</td>\
-								                <td class="created_at-field">'+barcodes[i].created_at+'</td>\
+								                <td class="created_at-field">'+date.getFullYear() + '-' + ("0" + date.getMonth()).slice(-2)  + '-' + ("0" + date.getDay()).slice(-2)  + ' ' + ("0" + date.getHours()).slice(-2)  + ':' + ("0" + date.getMinutes()).slice(-2)  + ':' + ("0" + date.getSeconds()).slice(-2) +'</td>\
 								        	</tr>';
 						        }
 
