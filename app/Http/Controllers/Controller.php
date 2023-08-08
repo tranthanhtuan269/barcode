@@ -141,7 +141,7 @@ class Controller extends BaseController
             $cates =  ArticleCategory::select('slug','title','id')->where('parent_id',0)->get();
             foreach ($cates as $cate) {
                 $result.= '<li>';
-                $link = url('/') .'/' . $cate->slug;
+                $link = 'https://barcodelive.org/' . $cate->slug;
                 $result.= '<a href="' . $link . '" >' . $cate->title . '</a>';
                 $result.= '</li>';
             }
@@ -155,7 +155,7 @@ class Controller extends BaseController
             $cates = ArticleCategory::select('slug','title','id')->where('parent_id',$cate->id)->get();
             foreach ($cates as $cate) {
                 $result.= '<li>';
-                $link = url('/') .'/' . $cate->slug;
+                $link = 'https://barcodelive.org/' . $cate->slug;
                 $result.= '<a href="' . $link . '" >' . $cate->title . '</a>';
                 $result.= '</li>';
             }
