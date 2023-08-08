@@ -13,6 +13,7 @@ use App\Models\BarCode;
 use App\Models\SiteConfig;
 use App\EmailSubscribenNews;
 use Illuminate\Support\Str;
+use App\Helpers\BatvHelper;
 use Cache;
 
 
