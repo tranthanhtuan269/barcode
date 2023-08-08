@@ -462,7 +462,7 @@ $("body").on("click", "#add-edit-barcode", function (e) {
       model: model,
       manufacturer: manufacturer,
       currency_unit: currency_unit,
-      avg_price: avg_price,
+      avg_price: parseInt(avg_price.replace(',','')),
       spec: spec,
       feature: feature,
       description: description,

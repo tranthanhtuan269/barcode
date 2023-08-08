@@ -54,47 +54,46 @@
                         $check_link_http = true;
                     }
                     ?>
-                    @if (count($list_file) > 1)
-                    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            @foreach ($list_file as $key => $image)
-                            <li data-target="#myCarousel" data-slide-to="{{ $key }}" class="@if ($key == 0) active @endif"></li>
-                            @endforeach
-                        </ol>
-                        <div class="carousel-inner">
-                            @if ($check_link_http)
-                            <div class="item active">
-                                <img src="{{ $data->image }}">
+                        @if (count($list_file) > 1)
+                        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                @foreach ($list_file as $key => $image)
+                                <li data-target="#myCarousel" data-slide-to="{{ $key }}" class="@if ($key == 0) active @endif"></li>
+                                @endforeach
+                            </ol>
+                            <div class="carousel-inner">
+                                @if ($check_link_http)
+                                <div class="item active">
+                                    <img src="{{ $data->image }}">
+                                </div>
+                                @else
+                                @foreach ($list_file as $key => $image)
+                                <div class="item @if ($key == 0) active @endif">
+                                    <img src="{{ asset('uploads/barcode/'.$image) }}" alt="{{ $image }}">
+                                </div>
+                                @endforeach
+                                @endif
                             </div>
-                            @else
-                            @foreach ($list_file as $key => $image)
-                            <div class="item @if ($key == 0) active @endif">
-                                <img src="{{ asset('uploads/barcode/'.$image) }}" alt="{{ $image }}">
-                            </div>
-                            @endforeach
+
+                            @if (count($list_file) > 1)
+                            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
                             @endif
                         </div>
-
-                        @if (count($list_file) > 1)
-                        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                            <span class="glyphicon glyphicon-chevron-left"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
+                        <style>
+                            .carousel-inner>.item.active {
+                                display: block;
+                            }
+                        </style>
+                        @else
+                        <img src="{{ asset('uploads/barcode/'.$data->image) }}" alt="{{$data->barcode}}" width="200" height="200">
                         @endif
-                    </div>
-                    <style>
-                        .carousel-inner>.item.active {
-                            display: block;
-                        }
-                    </style>
-                    @else
-                    <img src="data:image/png;base64, {{ \DNS1D::getBarcodePNG($data->barcode, 'C39+',1,80) }}" alt="{{$data->barcode}}" width="200" height="200">
-                    <p style="text-align: center;font-size: 32px;margin-top: 16px;letter-spacing: 5px;">{{$data->barcode}}</p>
-                    @endif
                     @else
                     <img src="data:image/png;base64, {{ \DNS1D::getBarcodePNG($data->barcode, 'C39+',1,80) }}" alt="{{$data->barcode}}" width="200" height="200">
                     <p style="text-align: center;font-size: 32px;margin-top: 16px;letter-spacing: 5px;">{{$data->barcode}}</p>
