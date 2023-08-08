@@ -116,8 +116,8 @@
                 </div>
                 <p>Share</p>
                 <div class="d-flex align-items-center share-box">
-                    <div class="fb-like" data-href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fbarcodelive.org%2F?barcode={{ $data->barcode }}" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
-                    <div class="fb-share-button" data-layout="button" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fbarcodelive.org%2F?barcode={{ $data->barcode }}" class="fb-xfbml-parse-ignore">Share</a></div>
+                    <div class="fb-like" data-href="https://www.facebook.com/sharer/sharer.php?u={{ url()->full() }}" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+                    <div class="fb-share-button" data-layout="button" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ url()->full() }}" class="fb-xfbml-parse-ignore">Share</a></div>
                 </div>
                 <style>
                     .share-box div:first-child,
