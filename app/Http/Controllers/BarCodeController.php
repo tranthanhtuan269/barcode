@@ -86,7 +86,6 @@ class BarCodeController extends Controller
                             in_array('model', $headings[0][0], TRUE) &&
                             in_array('manufacturer', $headings[0][0], TRUE) &&
                             in_array('average_price', $headings[0][0], TRUE) &&
-                            in_array('currency_unit', $headings[0][0], TRUE) &&
                             in_array('currency_unit', $headings[0][0], TRUE))) {
                             return back()->with(['flash_message_err_and_reload' => 'The File is not formatted correctly']);
                         }
@@ -98,7 +97,7 @@ class BarCodeController extends Controller
 
                         if (count($data) > 0) {
                             // Kiểm tra xem file có đúng định dạng như file Example ko
-                            if (isset($data[0]['ordinal_number']) && isset($data[0]['barcode']) && isset($data[0]['name']) && isset($data[0]['model']) && isset($data[0]['manufacturer']) && isset($data[0]['average_price']) && isset($data[0]['currency_unit'])  && isset($data[0]['image'])) {
+                            if (isset($data[0]['ordinal_number']) && isset($data[0]['barcode']) && isset($data[0]['name']) && isset($data[0]['model']) && isset($data[0]['manufacturer']) && isset($data[0]['average_price']) && isset($data[0]['currency_unit'])) {
                                 $list_barcode = [];
                                 foreach ($data as $row) {
                                     unset($rules);
@@ -205,7 +204,7 @@ class BarCodeController extends Controller
                                     return redirect()->route('listBarCodebyUser')->with(['flash_message_succ' => isset($this->messages['barcode.create_susscess']) ? $this->messages['barcode.create_susscess'] : 'The product has been created.', 'list_barcode' => $arr]);
                                 }
                             } else {
-                                return back()->with(['flash_message_err_and_reload' => isset($this->messages['barcode.file_excel.mimes']) ? $this->messages['barcode.file_excel.mimes'] : 'The products have been duplicated in file excel.']);
+                                return back()->with(['flash_message_err_and_reload' => isset($this->messages['barcode.file_excel.mimes']) ? $this->messages['barcode.file_excel.mimes'] : 'The File is not formatted correctly.']);
                             }
                         } else {
                             return back()->with(['flash_message_err' => isset($this->messages['barcode.file_excel.empty']) ? $this->messages['barcode.file_excel.empty'] : 'The file cannot be empty.']);
