@@ -99,17 +99,17 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{ url('/') }}" style="margin-top:4px">
+          <a class="navbar-brand" href="https://barcodelive.org" style="margin-top:4px">
           	<img src="{{ asset('frontend/images/logo.svg') }}" alt="Barcode Logo" width="65" height="65">
           </a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-		  <li class="default {{ Request::is('/')? 'active' : '' }}"><a href="{{ url('/') }}">Home</a></li>
+		  <li class="default {{ Request::is('/')? 'active' : '' }}"><a href="https://barcodelive.org">Home</a></li>
 			<li class="default {{ Request::is('add-barcode') || Request::is('barcode/add')? 'active' : '' }}"><a href="{{ route('getAddBarcodePage')}}">Add barcode</a></li>
-			<li class="default tips {{ Request::is('tips')? 'active' : '' }}"><a href="{{ url('/') }}/tips">Tips</a></li>
-			<li class="default blog {{ Request::is('blog')? 'active' : '' }}"><a href="{{ url('/') }}/blog">Blog</a></li>
-			<li class="default news {{ Request::is('news')? 'active' : '' }}"><a href="{{ url('/') }}/news">News</a></li>
+			<li class="default tips {{ Request::is('tips')? 'active' : '' }}"><a href="https://barcodelive.org/tips">Tips</a></li>
+			<li class="default blog {{ Request::is('blog')? 'active' : '' }}"><a href="https://barcodelive.org/blog">Blog</a></li>
+			<li class="default news {{ Request::is('news')? 'active' : '' }}"><a href="https://barcodelive.org/news">News</a></li>
 			<li class="default {{ Request::is('app')? 'active' : '' }}"><a href="{{ route('getAppPage')}}">App</a></li>
 			<li class="default {{ Request::is('about')? 'active' : '' }}"><a href="{{ route('getAboutPage')}}" rel="nofollow">About</a></li>
           </ul>
@@ -125,7 +125,7 @@
 		<div class="container">
 			<div class="content">
 				<div class="">
-					<a href="{{ url('/') }}"><img src="{{ asset('frontend/images/logo_footer.svg') }}" alt="logo" class="lazy logo-toh" width="80" height="75"></a>
+					<a href="https://barcodelive.org"><img src="{{ asset('frontend/images/logo_footer.svg') }}" alt="logo" class="lazy logo-toh" width="80" height="75"></a>
 					<div class="description pt-2  color-text">Barcodelive is one of the leading barcode lookup tools. This tool allows users to barcode lookup for thousands of global products. Also, sellers can add a new product or edit an existing barcode on Barcodelive. This increases business trust and effectiveness. Barcodelive - the best choice for both consumers and sellers. </div>
 				</div>
 				<div class="">
@@ -134,13 +134,13 @@
 						<ul class="list-cate">
 							{!! $cate_root !!}
 							<li>
-								<a href="{{ url('/') }}/faqs">Faqs</a>
+								<a href="https://barcodelive.org/faqs">Faqs</a>
 							</li>
 							<li>
-								<a href="{{ url('/') }}/terms-and-conditions" rel="nofollow">Terms and Conditions</a>
+								<a href="https://barcodelive.org/terms-and-conditions" rel="nofollow">Terms and Conditions</a>
 							</li>
 							<li>
-								<a href="{{ url('/') }}/rss/article.xml" rel="nofollow">RSS</a>
+								<a href="https://barcodelive.org/rss/article.xml" rel="nofollow">RSS</a>
 							</li>
 						</ul>
 						<ul class="list-cate">
@@ -199,7 +199,7 @@
 		$.each($('a'), function (key, val) {
 			let link = $(val).attr('href');
 			let social = $(val).attr('data-social');
-			if(link && link.indexOf("{{ url('/') }}") == -1 && social != 1) {
+			if(link && link.indexOf("https://barcodelive.org") == -1 && social != 1) {
 				$(val).attr('rel','nofollow')
 			}
 		});
