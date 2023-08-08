@@ -97,7 +97,7 @@
                     @else
                     <img src="data:image/png;base64, {{ \DNS1D::getBarcodePNG($data->barcode, 'C39+',1,80) }}" alt="{{$data->barcode}}" width="200" height="200">
                     <p style="text-align: center;font-size: 32px;margin-top: 16px;letter-spacing: 5px;">{{$data->barcode}}</p>
-                    @endif
+                    @endif 
                 </div>
             </div>
             <div class="col-sm-7">

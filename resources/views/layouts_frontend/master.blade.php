@@ -132,7 +132,7 @@
 					<div class="title">BARCODELIVE</div>
 					<div class="list-ul">
 						<ul class="list-cate">
-							{!! $cate_root !!}
+							{!! $cate_root !!} 
 							<li>
 								<a href="{{ url('/') }}/faqs">Faqs</a>
 							</li>
