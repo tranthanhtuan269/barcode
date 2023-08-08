@@ -60,19 +60,25 @@
                             </td>
                             <td>
                                 @php
-                                if(str_contains($data->image, ',')){
-                                    $pieces = explode(",", $data->image);
-                                    if (str_contains($pieces[0], 'http')){
-                                        echo "<img src='$pieces[0]' width='60'>";
+                                if(strlen($data->image) > 0){
+                                    if(str_contains($data->image, ',')){
+                                        $pieces = explode(",", $data->image);
+                                        if (str_contains($pieces[0], 'http')){
+                                            echo "<img src='$pieces[0]' width='60'>";
+                                        }else{
+                                            echo "<img src='/uploads/barcode/$pieces[0]' width='60'>";
+                                        }
                                     }else{
-                                        echo "<img src='/uploads/barcode/$pieces[0]' width='60'>";
+                                        if (str_contains($data->image, 'http')){
+                                            echo "<img src='$data->image' width='60'>";
+                                        }else{
+                                            echo "<img src='/uploads/barcode/$data->image' width='60'>";
+                                        }
                                     }
                                 }else{
-                                    if (str_contains($data->image, 'http')){
-                                        echo "<img src='$data->image' width='60'>";
-                                    }else{
-                                        echo "<img src='/uploads/barcode/$data->image' width='60'>";
-                                    }
+                                @endphp
+                                <img src="data:image/png;base64, {{ \DNS1D::getBarcodePNG($data->barcode, 'C39+',1,80) }}" alt="{{$data->barcode}}" width="60">
+                                @php
                                 }
                                 @endphp
                                 
