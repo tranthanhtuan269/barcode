@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 use DateTime;
-use App\Barcode;
+use App\Models\Barcode;
 
 class BatvHelper{
 
