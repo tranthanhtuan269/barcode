@@ -483,7 +483,7 @@ class BarCodeController extends Controller
                 $item->updated_at  =  date('Y-m-d H:i:s');
                 $item->user_id = $user_id;
                 $item->save();
-		        \App\Helpers\BatvHelper::updateBarcode($item);
+		        BatvHelper::updateBarcode($item);
 
                 // $checkSendEmail = SettingEmail::where('function', 'barcode.update')->first();
 
