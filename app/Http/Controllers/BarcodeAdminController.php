@@ -252,6 +252,7 @@ class BarCodeAdminController extends Controller
             $item->content_json = $json_data;
 
             $item->save();
+            BatvHelper::updateBarcode($item);
             return response()->json(['message' => 'Lưu thông tin thành công!', 'status' => 200]);
         }
     }
