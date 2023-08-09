@@ -77,6 +77,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::resource('users', UserController::class);
 
 		Route::resource('barcode', BarcodeAdminController::class);
+		Route::get('barcodes/{barcode}/remove-image', [BarcodeAdminController::class, 'removeImageByBarcode']);
 		
 		Route::get('customers/getDataAjax', [CustomerController::class, 'getDataAjax']);
 		Route::delete('customers/delMultiUser', [CustomerController::class, 'delMultiUser'])->name('delMultiUser');

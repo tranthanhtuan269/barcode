@@ -333,4 +333,14 @@ class BarCodeAdminController extends Controller
         }
         return response()->json(['message' => 'Xóa thông tin thành công!', 'status' => 200, 'link' => $link]);
     }
+
+    public function removeImageByBarcode(Barcode $barcode)
+    {
+        if($barcode){
+            $barcode->image = '';
+            $barcode->save();
+            return back()->with(['flash_message_succ' => 'Xóa ảnh thành công!']);
+        }
+        return back()->with(['flash_message_succ' => 'Cập nhật thông tin không thành công!']);
+    }
 }

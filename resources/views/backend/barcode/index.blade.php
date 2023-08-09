@@ -101,6 +101,7 @@
                             </td>
                             <td>
                                 <a href="/admincp/barcodes/{{ $data->id }}/edit?language=en"  class="btn-edit" title="Sửa"><i class="fa fa-edit"></i></a>
+                                <a href="/admincp/barcodes/{{ $data->id }}/remove-image?language=en"  class="btn-remove" title="Remove Image"><i class="fa fa-remove"></i></a>
                             </td>
                         </tr>
                         @endforeach
@@ -132,10 +133,6 @@
     var errorConnect        = "Please check your internet connection and try again.";
     
     $(document).ready(function(){
-    
-        
-
-
         addEventListener();
         checkCheckboxChecked();
     
