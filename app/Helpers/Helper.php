@@ -408,7 +408,7 @@ class Helper {
         return  new LengthAwarePaginator(array_slice($arr, $offset, $perPage, true), count($arr), $perPage, $page, ['path' => $request->url(), 'query' => $request->query()]);
     }
 
-    public static function formatDate($format_time, $time, $format, $time2){
+    public static function formatDate($format_time, $time, $format){
         // return $time;
         if($time != null && $time != '' && $time != '-0001-11-30 00:00:00'){
             return (!empty($time)) ? \Carbon\Carbon::createFromFormat($format_time,$time)->format($format) : '';
