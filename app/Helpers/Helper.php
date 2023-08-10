@@ -408,8 +408,13 @@ class Helper {
         return  new LengthAwarePaginator(array_slice($arr, $offset, $perPage, true), count($arr), $perPage, $page, ['path' => $request->url(), 'query' => $request->query()]);
     }
 
-    public static function formatDate($format_time, $time, $format){
-        return (!empty($time)) ? \Carbon\Carbon::createFromFormat($format_time,$time)->format($format) : '';
+    public static function formatDate($format_time, $time, $format, $time2){
+        // return $time;
+        if($time != null && $time != '' && $time != '-0001-11-30 00:00:00'){
+            return (!empty($time)) ? \Carbon\Carbon::createFromFormat($format_time,$time)->format($format) : '';
+        }else{
+            return (!empty($time2)) ? \Carbon\Carbon::createFromFormat($format_time,$time2)->format($format) : '';
+        }
     }
 
     public function listCategories($data, $parent = 0,$text = '',$select=0){
