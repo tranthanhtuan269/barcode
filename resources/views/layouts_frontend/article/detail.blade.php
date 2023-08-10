@@ -21,10 +21,10 @@
 <div id="tooltip" class="arrow_box share-text">
     <span class="share font-size--16 font-weight--600">Share</span>
     <button type="button" class="mt-1 btn-sm btn-twitter copy-noted" onclick="shareSocial('twitter')">
-        <img src="{{ asset('frontend/images/twitter_share.svg') }}" width="20" height="20">
+        <img src="{{ asset('frontend/images/twitter_share.svg') }}" width="20" height="20" alt="twitter share">
     </button>
     <button type="button" class=" mt-2 btn-sm btn-facebook save-noted" onclick="shareSocial('facebook')">
-        <img src="{{ asset('frontend/images/fb_share.svg') }}" width="19" height="22">
+        <img src="{{ asset('frontend/images/fb_share.svg') }}" width="19" height="22" alt="fb share">
     </button>
     <button type="button" class="mt-2 btn-facebook social-network" onclick="loadModalShare()">
         <img src="{{ asset('frontend/images/share_yellow.svg') }}" alt="Share" width="19" height="19">
@@ -211,10 +211,10 @@
                                 const html = `<div id="tooltip" class="arrow_box show tooltip_img">
                                                 <span class="share font-size--16 font-weight--600">Share</span>
                                                 <button type="button" class="mt-1 btn-sm btn-twitter copy-noted" onclick="shareSocialImg('twitter')">
-                                                    <img src="{{ asset('frontend/images/twitter_share.svg') }}" width="20" height="20">
+                                                    <img src="{{ asset('frontend/images/twitter_share.svg') }}" width="20" height="20" alt="twitter share">
                                                 </button>
                                                 <button type="button" class=" mt-2 btn-sm btn-facebook save-noted" onclick="shareSocialImg('facebook')">
-                                                    <img src="{{ asset('frontend/images/fb_share.svg') }}" width="19" height="22">
+                                                    <img src="{{ asset('frontend/images/fb_share.svg') }}" width="19" height="22" alt="fb share">
                                                 </button>
                                                 <button type="button" class="mt-2 btn-facebook social-network" onclick="loadModalShare()">
                                                     <img src="{{ asset('frontend/images/share_yellow.svg') }}" alt="Share" width="19" height="19">
