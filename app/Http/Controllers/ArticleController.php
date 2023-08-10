@@ -158,7 +158,11 @@ class ArticleController extends Controller
 
     public function store(StoreArticleRequest $request)
     {
-        $list_ask = json_decode($request->list_ask, TRUE);
+        if($request->list_ask == null){
+            $list_ask = [];
+        }else{
+            $list_ask = json_decode($request->list_ask, TRUE);
+        }
         $user_id = Auth::id();
         $date_current = date('Y-m-d H:i:s');
 
@@ -172,7 +176,7 @@ class ArticleController extends Controller
         $item->description      = $request->description;
         $item->relative_acticles= json_encode($request->relative_acticles);
         $item->content          = $request->content;
-        $item->list_ask          = $list_ask ? $request->list_ask : null;
+        $item->list_ask         = $list_ask ? $request->list_ask : null;
         $image                  = $request->image;
         $item->cat_id           = $request->cat_id;
         $item->status           = $request->status;
@@ -334,7 +338,11 @@ class ArticleController extends Controller
 
     public function update($id, Request $request)
     {
-        $list_ask = json_decode($request->list_ask, TRUE);
+        if($request->list_ask == null){
+            $list_ask = [];
+        }else{
+            $list_ask = json_decode($request->list_ask, TRUE);
+        }
 
         $language = ($request->language != '') ? $request->language : 'en';
         $data = Article::where('id', $id)->first();
@@ -343,10 +351,10 @@ class ArticleController extends Controller
     
         if ($data) { //UPDATE
             $rules = [
-                'cat_id'          => 'required',
-                'description'     => 'required',
-                'content'          => 'required',
-                'image'          => 'required',
+                'cat_id'            => 'required',
+                'description'       => 'required',
+                'content'           => 'required',
+                'image'             => 'required',
                 'list_ask'          => 'checkJson',
             ];
             $messages = [];

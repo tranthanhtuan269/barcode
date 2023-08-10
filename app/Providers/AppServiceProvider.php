@@ -54,8 +54,12 @@ class AppServiceProvider extends ServiceProvider
         });  
 
         Validator::extend('checkJson', function($attribute, $value, $parameters, $validator) {
-            $json = json_decode($value, true);
-            return ( $json == null )?FALSE:TRUE;
+            if($value != null){
+                $json = json_decode($value, true);
+                return ( $json == null )?FALSE:TRUE;
+            }else{
+                return TRUE;
+            }
         });   
 
         // Validate email customize
