@@ -66,7 +66,7 @@
                         </div>
                         <div class="form-group clearfix">
                             <label class="font-weight-bold">Hỏi đáp</label>
-                            <textarea class="form-control" id="list_ask" name="list_ask" rows="10" autocorrect="off" spellcheck="false">{{ isset($data->list_ask) ?  htmlentities($data->list_ask) : '' }}</textarea>
+                            <textarea class="form-control" id="list_ask" name="list_ask" rows="10" autocorrect="off" spellcheck="false">{{ isset($data->list_ask) ?  $data->list_ask : '' }}</textarea>
                             <p class="alert-list_ask alert-errors"></p>
                         </div>
                         <div class="form-group clearfix">
