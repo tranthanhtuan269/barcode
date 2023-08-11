@@ -186,7 +186,7 @@
     </button>
 </div>
 <!-- end -->
-<link rel="stylesheet" href="/frontend/css/article.css">
+<link rel="stylesheet" href="/frontend/min/article.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <input type="hidden" id="keywords_not_good" name="keywords_not_good" value="{{ isset($keywords_not_good) ? $keywords_not_good : '' }}">
@@ -283,7 +283,7 @@
 
         </style>
     </section>
-    <script src="{{ url('frontend/js/comment.js') }}"></script>
+    <script src="{{ url('frontend/min/comment.js') }}"></script>
     <!-- end -->
 </div>
 <script>

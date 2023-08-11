@@ -117,6 +117,6 @@
 	}
 </script>
 @endpush
-<script src="{{ url('frontend/js/search.js') }}"></script>
+<script src="{{ url('frontend/min/search.js') }}"></script>
 
 @endsection

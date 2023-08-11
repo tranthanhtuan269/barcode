@@ -10,9 +10,9 @@
         $class_import = 'in';
     }
 ?>
-<link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/combobox.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('frontend/min/combobox.css') }}">
 <script src="https://cdn.ckeditor.com/4.6.1/standard/ckeditor.js"></script>
-<script src="{{ asset('frontend/js/jquery.combobox.js') }}"></script>
+<script src="{{ asset('frontend/min/jquery.combobox.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
 
 <div id="special-field" class="special" data-barcode="{{ (\Auth::check()) ? \Auth::user()->number_barcode : 0 }}"></div>

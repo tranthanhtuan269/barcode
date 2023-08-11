@@ -18,18 +18,18 @@
 	
 	<meta name="google-site-verification" content="lBrafYhpBGZlRBaiBGKdVLN5vRrtkx3ZENlUPqFJd0o" />
 	@if(Request::is('/'))
-	<link rel="preload" href="{{ asset('frontend/css/bootstrap.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-	<noscript><link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.min.css') }}"></noscript>
+	<link rel="preload" href="{{ asset('frontend/min/bootstrap.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<noscript><link rel="stylesheet" href="{{ asset('frontend/min/bootstrap.min.css') }}"></noscript>
 
-	<link rel="preload" href="{{ asset('frontend/css/style.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-	<noscript><link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}"></noscript>
+	<link rel="preload" href="{{ asset('frontend/min/style.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<noscript><link rel="stylesheet" href="{{ asset('frontend/min/style.css') }}"></noscript>
 	
-	<link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/style-home.css') }}">
-	<link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/reponsive.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('frontend/min/style-home.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('frontend/min/reponsive.css') }}">
 	@else
-	<link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/bootstrap.min.css') }}">
-	<link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/style.css') }}">
-	<link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/reponsive.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('frontend/min/bootstrap.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('frontend/min/style.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('frontend/min/reponsive.css') }}">
 	@endif
 
 	@if(Request::is('/barcode/add'))
@@ -64,7 +64,7 @@
 	<!-- End Meta Pixel Code -->
 
 	@yield('facebook_share')
-	<script src="{{ asset('frontend/js/jquery.min.js') }}"></script>
+	<script src="{{ asset('frontend/min/jquery.min.js') }}"></script>
 	<?php
 		header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 		header("Cache-Control: post-check=0, pre-check=0", false);
@@ -168,14 +168,14 @@
 		<div class="footer-copyright text-center py-2 color-text">© 2017 - {{ date('Y') }} BarcodeLive. All rights reserved.</div>
 	</footer>
 	<div class="ajax_waiting"></div>
-	<script src="{{ asset('frontend/js/bootstrap.min.js') }}"></script>
+	<script src="{{ asset('frontend/min/bootstrap.min.js') }}"></script>
 	@if(Request::is('/barcode/add'))
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 	@endif
 	@if(!Request::is('/'))
-	<script src="{{ asset('frontend/js/sweetalert.min.js') }}"></script>
+	<script src="{{ asset('frontend/min/sweetalert.min.js') }}"></script>
 	<script src="{{ asset('js/general.js') }}"></script>
-	<script src="{{ asset('frontend/js/function.js') }}"></script>
+	<script src="{{ asset('frontend/min/function.js') }}"></script>
 	@endif
 	<script>
     	var baseURL="<?php echo URL::to('/'); ?>";

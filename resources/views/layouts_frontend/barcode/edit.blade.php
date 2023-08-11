@@ -1,9 +1,9 @@
 @extends('layouts_frontend.master')
 @section('title', 'Barcode Live')
 @section('content')
-<link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/combobox.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('frontend/min/combobox.css') }}">
 <script src="https://cdn.ckeditor.com/4.6.1/standard/ckeditor.js"></script>
-<script src="{{ asset('frontend/js/jquery.combobox.js') }}"></script>
+<script src="{{ asset('frontend/min/jquery.combobox.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
 <script src="http://jcrop-cdn.tapmodo.com/v0.9.12/js/jquery.Jcrop.min.js"></script>
 <div class="special"></div>

@@ -33,7 +33,7 @@
 <!-- end -->
 
 <div class="main-content detail-article page" id="min-height-3" data-article-id="{{$data->id}}">
-    <link rel="stylesheet" href="/frontend/css/article.css">
+    <link rel="stylesheet" href="/frontend/min/article.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -391,7 +391,7 @@
                 
             </style>
         </section>
-        <script src="{{ url('frontend/js/comment.js') }}"></script>
+        <script src="{{ url('frontend/min/comment.js') }}"></script>
         <!-- end -->
     </div>
 </div>
