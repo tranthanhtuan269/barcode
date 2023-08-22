@@ -6,14 +6,12 @@ if (session_id() == '') {
 
 if ($_SESSION['admin_upload_file'] == 1) {
     # code...
-    mb_internal_encoding('UTF-8');
-    mb_http_output('UTF-8');
+    mb_internal_encoding();
+    mb_http_output();
     mb_http_input();
     mb_language('uni');
-    mb_regex_encoding('UTF-8');
+    mb_regex_encoding();
     ob_start('mb_output_handler');
-    date_default_timezone_set('Europe/Rome');
-    setlocale(LC_CTYPE, 'en_US'); //correct transliteration
     
     /*
     |--------------------------------------------------------------------------
